@@ -10,7 +10,10 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => SongProvider()),
       ],
-      child: MyApp(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: MyApp(),
+      ),
     ),
   );
 }
@@ -43,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Timer(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HeroSection()),
+          MaterialPageRoute(builder: (context) => HeroSection()),
         );
       });
     });
@@ -51,11 +54,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
         body: Center(
-          child: Icon(Icons.view_headline_sharp, size: 100),
-        ),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: double.infinity,
+                child: Image.asset(
+                  "assets/logo.png",
+                  fit: BoxFit.fill,
+                ))),
       ),
     );
   }

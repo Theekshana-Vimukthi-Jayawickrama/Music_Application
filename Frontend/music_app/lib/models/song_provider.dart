@@ -12,11 +12,15 @@ class SongProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addSong(List<Song> song) {
-    for (Song songs in song) {
-       _songs.add(songs);
+  void addSongs(List<Song> songs) {
+    for (Song song in songs) {
+      _songs.add(song);
     }
-   
-    notifyListeners();
   }
+
+  // void addSong(Song song) {
+  //   _songs.add(song);
+
+  //   notifyListeners();
+  // }
 }

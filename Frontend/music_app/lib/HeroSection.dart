@@ -6,101 +6,82 @@ import 'package:music_app/SongPage.dart';
 import 'package:music_app/models/Song.dart';
 import 'package:music_app/models/song_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class HeroSection extends StatefulWidget {
-  const HeroSection({super.key});
+class HeroSection extends StatelessWidget {
+  const HeroSection({Key? key}) : super(key: key);
 
-  @override
-  State<HeroSection> createState() => _HeroSectionState();
-}
-
-class _HeroSectionState extends State<HeroSection> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Hero Section",
-      home: SafeArea(
-        child: Scaffold(
-            backgroundColor: const Color(0xFF1E1E2C),
-            appBar: AppBar(
-              title: const Text("Enjoy with Music",
-                  style: TextStyle(
-                    color: Color(0xFFE0E0E0),
-                  )),
-              backgroundColor: const Color.fromARGB(255, 7, 6, 6),
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search,
-                      color: Color(0xFFE0E0E0),
-                    ))
-              ],
-              elevation: 50.0,
-              leading: const Icon(
-                Icons.list_sharp,
-                color: Color(0xFFE0E0E0),
-                size: 35,
-              ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xFF1E1E2C),
+        appBar: AppBar(
+          title: const Text(
+            "Enjoy with Music",
+            style: TextStyle(
+              color: Colors.white,
             ),
-            body: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      height: 100,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const SizedBox(width: 20.0, height: 100.0),
-                          const Text(
-                            'Welcome to',
-                            style: TextStyle(
-                                fontSize: 28.0, color: Colors.white70),
-                          ),
-                          const SizedBox(width: 20.0, height: 100.0),
-                          DefaultTextStyle(
-                            style: const TextStyle(
-                                fontSize: 32.0,
-                                fontFamily: 'Horizon',
-                                color: Colors.white),
-                            child: AnimatedTextKit(
-                              animatedTexts: [
-                                RotateAnimatedText('Tune Book'),
-                                RotateAnimatedText('Tune Book'),
-                                RotateAnimatedText('Tune Book'),
-                              ],
-                            ),
-                          ),
+          ),
+          backgroundColor: const Color.fromARGB(255, 7, 6, 6),
+          elevation: 50.0,
+          leading: const Icon(
+            Icons.list_sharp,
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const SizedBox(width: 20.0, height: 100.0),
+                    const Text(
+                      'Welcome to',
+                      style: TextStyle(fontSize: 28.0, color: Colors.white70),
+                    ),
+                    const SizedBox(width: 20.0, height: 100.0),
+                    DefaultTextStyle(
+                      style: const TextStyle(
+                          fontSize: 32.0,
+                          fontFamily: 'Horizon',
+                          color: Colors.white),
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          RotateAnimatedText('Tone Book'),
+                          RotateAnimatedText('Tone Book'),
+                          RotateAnimatedText('Tone Book'),
                         ],
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: double.infinity,
-                      height: 50,
-                      decoration: BoxDecoration(color: Color(0xFF252525)),
-                      child: const Row(
-                        children: [
-                          Text(
-                            "ALL SONGS",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          )
-                        ],
+                        totalRepeatCount: 1000,
+                        
                       ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: double.infinity,
+                height: 50,
+                decoration: const BoxDecoration(color: Color(0xFF252525)),
+                child: const Center(
+                  child: Text(
+                    "ALL SONGS",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
-                Expanded(child: SecondWidget())
-              ],
-            )),
+              ),
+            ),
+            Expanded(child: SecondWidget()),
+          ],
+        ),
       ),
     );
   }
@@ -112,20 +93,26 @@ class SecondWidget extends StatefulWidget {
 }
 
 class _SecondWidgetState extends State<SecondWidget> {
-  
-  Future<List<Song>> fetchItems() async {
+  List<Song> songs = [];
+  List<Song> foundSongs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchItems();
+  }
+
+  Future<void> fetchItems() async {
     var url = Uri.parse("http://192.168.43.220:8080/api/v1/song/get/all");
     late http.Response response;
-    List<Song> songs = [];
-    
     try {
-       final songDataProvider = Provider.of<SongProvider>(context, listen: false);
+      final songDataProvider =
+          Provider.of<SongProvider>(context, listen: false);
       response = await http.get(url);
 
       if (response.statusCode == 200) {
-        // Map data = json.decode(response.body);
-        // List<dynamic> songData = data[""];
         List<dynamic> data = jsonDecode(response.body);
+        List<Song> fetchedSongs = [];
         for (var item in data) {
           var name = item['name'];
           var id = item['id'];
@@ -148,70 +135,107 @@ class _SecondWidgetState extends State<SecondWidget> {
             codeCredit,
             notationCredit,
           );
-          // songDataProvider.addSong(song);
-          songs.add(song);        
+          fetchedSongs.add(song);
         }
-        songDataProvider.addSong(songs);
+        songDataProvider.addSongs(fetchedSongs);
+        setState(() {
+          songs = fetchedSongs;
+          foundSongs = fetchedSongs;
+        });
       } else {
-        return Future.error("Something gone wrong, ${response.statusCode}");
+        throw Exception("Something went wrong, ${response.statusCode}");
       }
     } catch (e) {
       print(e);
-      return Future.error(e.toString());
+      throw Exception(e.toString());
     }
-    return songs;
+  }
+
+  void _runFilter(String enteredKeyword) {
+    List<Song> results = [];
+    if (enteredKeyword.isEmpty) {
+      results = songs;
+    } else {
+      results = songs
+          .where((item) =>
+              item.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+
+    setState(() {
+      foundSongs = results;
+    });
+  }
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 2));
+    await fetchItems();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    return FutureBuilder(
-      future: fetchItems(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: Text('waiting'),
-          );
-        } else {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else {
-            return ListView.builder(
-                itemCount: snapshot.data?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.limeAccent),
-                      child: ListTile(
-                        leading: Image.memory(
-                          base64.decode(snapshot.data![index].lyricsData),
-                          width: 50,
-                          height: 50,
-                        ),
-                        title: Text(
-                          snapshot.data![index].name,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          snapshot.data![index].name,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Songpage(data: snapshot.data![index].id),
+    return RefreshIndicator(
+      onRefresh: _handleRefresh,
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              onChanged: (value) => _runFilter(value),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                  labelText: 'Search',
+                  labelStyle: TextStyle(color: Colors.white),
+                  suffixIcon: Icon(Icons.search, color: Colors.white)),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: foundSongs.isNotEmpty
+                ? ListView.builder(
+                    itemCount: foundSongs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 15, 15, 14)),
+                          child: ListTile(
+                            leading: Image.memory(
+                              base64.decode(foundSongs[index].artistPhotoData),
+                              width: 50,
+                              height: 50,
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                });
-          }
-        }
-      },
+                            title: Text(
+                              foundSongs[index].name,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Songpage(data: foundSongs[index].id),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : const Center(
+                    child: Text('Waiting for results',
+                        style: TextStyle(color: Colors.white))),
+          ),
+        ],
+      ),
     );
   }
 }
