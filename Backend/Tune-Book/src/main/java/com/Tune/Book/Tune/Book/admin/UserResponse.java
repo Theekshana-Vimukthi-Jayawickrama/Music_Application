@@ -1,16 +1,17 @@
-package com.Tune.Book.Tune.Book.auth;
+package com.Tune.Book.Tune.Book.admin;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String token;
-    private String id;
+@Builder
+@Data
+public class UserResponse {
+    private String userName;
+    private String fullName;
     private String role;
+    private String id;
 }

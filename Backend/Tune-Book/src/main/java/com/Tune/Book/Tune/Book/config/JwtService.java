@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,20 @@ public class JwtService {
             return Jwts
                     .builder()
                     .setClaims(extraClaims)
+                    .claim("authorities",populateAuthorities(userDetails.getAuthorities()))
                     .setSubject(userDetails.getUsername())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24 ))
+                    .setExpiration(new Date(System.currentTimeMillis() + 86400000 ))
                     .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                     .compact();
+    }
+
+    private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        Set<String> authoritiesSet = new HashSet<>();
+        for(GrantedAuthority authority: authorities){
+            authoritiesSet.add(authority.getAuthority());
+        }
+        return  String.join(",",authoritiesSet);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

@@ -1,5 +1,6 @@
 package com.Tune.Book.Tune.Book.config;
 
+import com.Tune.Book.Tune.Book.User.Role;
 import com.Tune.Book.Tune.Book.config.JwtAuthenticationFilter;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -15,10 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfiguration{
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,10 +36,8 @@ public class SecurityConfiguration {
                 .permitAll()
                 .requestMatchers("/api/v1/otp/**")
                 .permitAll()
-                .requestMatchers("/api/v1/gallery/**")
-                .permitAll()
-                .requestMatchers("api/v1/items/**")
-                .permitAll()
+                .requestMatchers("api/v1/admin/**")
+                .hasAnyAuthority(Role.ADMIN.toString(),Role.SUPERADMIN.toString())
                 .anyRequest()
                 .authenticated()
                 .and()

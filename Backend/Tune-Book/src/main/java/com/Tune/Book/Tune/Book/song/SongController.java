@@ -17,24 +17,7 @@ import java.util.List;
 public class SongController {
 
     private final SongService songService;
-    private final ObjectMapper objectMapper;
-    @PostMapping("/save")
-    public ResponseEntity<?> saveSong(@RequestPart("requestData") String requestSongs,
-                                      @RequestPart("artist")MultipartFile artist,
-                                      @RequestPart("lyrics") MultipartFile lyrics,
-                                      @RequestPart("notation") MultipartFile notation,
-                                      @RequestPart("codes") MultipartFile codes
-                                      ) throws JsonProcessingException {
-        RequestSongs requestSongs1 = objectMapper.readValue(requestSongs,RequestSongs.class);
 
-        try {
-            songService.saveData(requestSongs1,artist,codes,lyrics,notation);
-            return ResponseEntity.ok("successfully added");
-
-        }catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-    }
     @GetMapping("/get/all")
     public  ResponseEntity<List<ResponseSongs>> getAllSongs(){
         try{

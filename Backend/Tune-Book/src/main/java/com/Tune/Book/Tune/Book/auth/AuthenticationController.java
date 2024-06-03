@@ -3,13 +3,11 @@ package com.Tune.Book.Tune.Book.auth;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -22,9 +20,29 @@ public class AuthenticationController {
         return  ResponseEntity.ok(authenticationService.register(request));
     }
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ){
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        try{
+            return ResponseEntity.ok(authenticationService.authenticate(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(
+            @RequestBody RegisterRequest request,
+            @PathVariable String id
+    ){
+        try{
+            authenticationService.authenticateUpdate(request,id);
+            return ResponseEntity.ok().build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }
