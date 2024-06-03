@@ -72,7 +72,7 @@ class _SongpageState extends State<Songpage> {
                   ),
                   Tab(
                     icon: Icon(Icons.piano, color: Colors.white),
-                    text: 'Codes',
+                    text: 'Chrods',
                   ),
                   Tab(
                     icon: Icon(Icons.note_alt_outlined, color: Colors.white),
