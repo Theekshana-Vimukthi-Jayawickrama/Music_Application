@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom'; 
+import '../../src/App.css';
 
 const ForggotPassword = () => {
 
@@ -32,7 +33,6 @@ const ForggotPassword = () => {
         if(isPasswordValid && isConfirmPasswordValid){
         try {
       const response = await axios.put(`http://localhost:8080/api/v1/auth/updatePassword/${formData.email}`, formData);
-         alert("Succesful Registered.");
           if(response.status == 200){
             alert("Succesfully updated.");
               navigate('/');
@@ -130,9 +130,9 @@ const ForggotPassword = () => {
 
       const handleSendOTP = async () => {
         if (
-          !validateEmail() ||
-          !validatePassword() ||
-          !validateConfirmPassword()
+          validateEmail() &&
+          validatePassword() &&
+          validateConfirmPassword()
         ) {
           alert("Invalid input")
     

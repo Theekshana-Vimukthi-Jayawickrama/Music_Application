@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav } from './Nav';
+import '../../src/App.css';
 
 const AddSong = () => {
     const navigate = useNavigate();
@@ -93,23 +94,23 @@ const AddSong = () => {
     };
 
     return (
-        <div>
+        <div className="background">
           <cenetr><div className='container my-4'><Nav/></div></cenetr>
             <form onSubmit={handleSubmit} className="form-group">
                 <div className='row'>
                     <div className="col m-4">
-                        <label className='mb-1'>Song Name: </label>
+                        <label className='mb-1 text-info  h3'>Song Name: </label>
                         <input className="form-control" type="text" name="name" value={formData.name} onChange={handleInputChange} required />
                     </div>
                     <div className="col m-4">
-                        <label className='mb-1'>Sinhala Song Name: </label>
+                        <label className='mb-1 text-info  h3'>Sinhala Song Name: </label>
                         <input className="form-control" type="text" name="sinhalaName" value={formData.sinhalaName} onChange={handleInputChange} required />
                     </div>
                     <div className="col m-4">
-                        <label className='mb-1'>Credits for Chrods: </label>
+                        <label className='mb-1 text-info  h3'>Credits for Chrods: </label>
                         <input className="form-control" type="text" name="creditCodes" value={formData.creditCodes} onChange={handleInputChange} required />
                     </div>
-                    <div className="col m-4">
+                    <div className="col m-4 text-info  h3">
                         <label className='mb-1'>Credits for Notation: </label>
                         <input className="form-control" type="text" name="creditNotes" value={formData.creditNotes} onChange={handleInputChange} required />
                     </div>
@@ -117,28 +118,28 @@ const AddSong = () => {
                 <div className='container'>
                 <div className='row my-4'>
                     <div className='col-lg-5 my-4 border'>
-                        <label className='m-4'>Artist Photo (JPEG/PNG only):</label>
+                        <label className='m-4 text-info  h4'>Artist Photo (JPEG/PNG only):</label>
                         <input className='m-4' type="file" name="artistPhoto" accept=".jpeg, .jpg, .png" onChange={handleFileChange} />
                         {formData.artistPhotoPreview && (
                             <img src={formData.artistPhotoPreview} alt="Preview" style={{ width: '200px', maxHeight: '200px' }} className='m-3' />
                         )}
                     </div>
                     <div className='col-lg-5 my-4 border'>
-                        <label className='m-4'>Lyrics Photo (JPEG/PNG only):</label>
+                        <label className='m-4 text-info  h4'>Lyrics Photo (JPEG/PNG only):</label>
                         <input className='m-4' type="file" name="lyricsPhoto" accept=".jpeg, .jpg, .png" onChange={handleFileChange} />
                         {formData.lyricsPhotoPreview && (
                             <img src={formData.lyricsPhotoPreview} alt="Preview" style={{ width: '200px', maxHeight: '200px' }} className='m-3' />
                         )}
                     </div>
                     <div className='col-lg-5 my-4 border'>
-                        <label className='m-4'>Chrods Photo (JPEG/PNG only):</label>
+                        <label className='m-4 text-info  h4'>Chrods Photo (JPEG/PNG only):</label>
                         <input className='m-4' type="file" name="chrodsPhoto" accept=".jpeg, .jpg, .png" onChange={handleFileChange} />
                         {formData.chrodsPhotoPreview && (
                             <img src={formData.chrodsPhotoPreview} alt="Preview" style={{ width: '200px', maxHeight: '200px' }} className='m-3' />
                         )}
                     </div>
                     <div className='col-lg-5 my-4 border'>
-                        <label className='m-4'>Notation Photo (JPEG/PNG only):</label>
+                        <label className='m-4 text-info  h4'>Notation Photo (JPEG/PNG only):</label>
                         <input className='m-4' type="file" name="notationPhoto" accept=".jpeg, .jpg, .png" onChange={handleFileChange} />
                         {formData.notationPhotoPreview && (
                             <img src={formData.notationPhotoPreview} alt="Preview" style={{ width: '200px', maxHeight: '200px' }} className='m-3' />

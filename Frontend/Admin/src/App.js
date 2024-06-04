@@ -7,6 +7,7 @@ import Edit from './lib/Edit';
 import SongDetails from './lib/songDetails';
 import AdminPage from './lib/AdminPage';
 import AddAdminUser from './lib/AddAdminUser';
+import ForggotPassword from './lib/forggotPassword';
 const App=() => {
   return (
       <Router>
@@ -18,6 +19,7 @@ const App=() => {
           <Route path='/songDetails/:id' element={<SongDetails/>} />
           <Route path='/admin' element={<AdminPage/>}/>
           <Route path='/admin/add' element={<AddAdminUser/>}/>
+          <Route path='/forgotPassword' element={<ForggotPassword/>}/>
         </Routes>
       </Router>
   );

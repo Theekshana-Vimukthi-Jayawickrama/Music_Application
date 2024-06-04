@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import { Nav } from './Nav';
+import '../../src/App.css';
 
 const AddAdminUser = () => {
   const [otpSent, setOtpSent] = useState(false);
@@ -183,7 +184,7 @@ const textStyle = {
   userSelect: 'none',
 };
   return (
-  <>
+  <div className="background">
    <cenetr><div className='container my-4'><Nav/></div></cenetr>
    <div className='container my-4 fs-1' style={textStyle}>
       <center>Add a Admin.</center>
@@ -194,13 +195,13 @@ const textStyle = {
       <div className='row my-4 '>
         
         <div className='col-lg-5 col-md-12 mx-4 '>
-          <label className='mb-1'>Full Name: </label>
+          <label className='mb-1 text-info  h4'>Full Name: </label>
           <input  type="text" name="fullName" onChange={handleInputChange} className='form-control' required value={formData.fullName}  />
         </div>
       </div>
       <div className='row my-4'>
       <div className='col-lg-10 col-md-12 mx-4'>
-          <label className='mb-1'>E-mail:</label>
+          <label className='mb-1 text-info  h4'>E-mail:</label>
           <input type="email" name="email" onChange={handleInputChange} className='form-control' value={formData.email} required disabled={otpVerified} />
           <div className ='fs-6'  style={{ color: 'red' }}>{emailError}</div>
       </div>
@@ -210,14 +211,14 @@ const textStyle = {
                {/* Password */}
     <div className='row my-4'>
       <div className='col-lg-5 col-md-12 mx-4'>
-        <label className='mb-1'>Password:</label>
+        <label className='mb-1 text-info  h4'>Password:</label>
         <div className='row'>
           <div className='col-lg-10'>
               <input type={showPassword ? 'text' : 'password'} onBlur={validatePassword} value={formData.password} name="password" onChange={handleInputChange} className='form-control' required/>
           </div>
           <div className='col-lg-2'>
                   <button
-                  className='btn btn-outline-secondary'
+                  className='btn btn-light'
                   type='button'
                   onClick={togglePasswordVisibility}
               >
@@ -232,22 +233,22 @@ const textStyle = {
       </div>
 
       <div className='col-lg-5 col-md-12 mx-4'>
-        <label className='mb-1'>Confirm Password:</label>
+        <label className='mb-1 text-info  h4'>Confirm Password:</label>
         <div className='row'>
           <div className='col-lg-10'>
-          <input type={showPassword1 ? 'text' : 'password'} value={formData.confirmPassword} name="confirmPassword" onBlur={validateConfirmPassword} onChange={handleInputChange} className='form-control' required/>
+          <input type={showPassword1 ? 'text' : 'password'} value={formData.confirmPassword} name="confirmPassword" onBlur={validateConfirmPassword} onChange={handleInputChange} className='form-control text-info  h4' required/>
                           {/* Display error message if passwords don't match */}
           {!passwordMatch && (
               <div className="row my-2 ">
               <div className="col-lg-10 col-md-12 mx-4">
-                  <span className="text-danger fs-6">Passwords do not match.</span>
+                  <span className="text-danger fs-6 text-info  h3">Passwords do not match.</span>
               </div>
               </div>
           )}
           </div>
           <div className='col-lg-2'>
                   <button
-                  className='btn btn-outline-secondary'
+                  className='btn btn-light'
                   type='button'
                   onClick={togglePasswordVisibility1}
               >
@@ -289,7 +290,7 @@ const textStyle = {
                       type="button"
                       onClick={otpSent ? handleResendOTP : handleSendOTP}
                       disabled={resendCooldown > 0}
-                      className="btn btn-warning mx-2"
+                      className="btn btn-warning mx-2 "
                       >
                       {otpSent ? 'Resend OTP' : 'Send OTP'}
                       </button>
@@ -307,7 +308,7 @@ const textStyle = {
  
       </div>
     </form>
-    </>
+    </div>
   );
 }
 
