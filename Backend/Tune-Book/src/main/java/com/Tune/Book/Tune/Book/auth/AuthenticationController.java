@@ -31,9 +31,9 @@ public class AuthenticationController {
         }
 
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateUser/{id}")
     public ResponseEntity<?> update(
-            @RequestBody RegisterRequest request,
+            @RequestBody String request,
             @PathVariable String id
     ){
         try{
@@ -42,6 +42,19 @@ public class AuthenticationController {
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @PutMapping("updatePassword/{email}")
+    public  ResponseEntity<?> updatePassword(
+            @PathVariable String email,
+            @RequestBody ChangePasswordRequest changePasswordRequest){
+        try{
+            authenticationService.changePassword(email,changePasswordRequest);
+            return ResponseEntity.ok("Updated");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
         }
 
     }

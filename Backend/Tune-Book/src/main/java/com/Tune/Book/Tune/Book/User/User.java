@@ -4,6 +4,7 @@ import com.Tune.Book.Tune.Book.SendOTP.OTP;
 import com.Tune.Book.Tune.Book.User.Role;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,8 +24,10 @@ public class User implements UserDetails {
 
     @Id
     private String id;
+    @Indexed(unique = true)
     private String userName;
     private String fullName;
+    @Indexed(unique = true)
     private String email;
     private String password;
     private Role role;
