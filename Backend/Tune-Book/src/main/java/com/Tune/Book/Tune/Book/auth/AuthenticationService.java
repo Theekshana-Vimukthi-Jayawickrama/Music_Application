@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -76,19 +77,26 @@ public class AuthenticationService {
         }
     }
 
-    public void authenticateUpdate(RegisterRequest request,String id) {
+    public void authenticateUpdate(String request,String id) {
 
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
-            if(request.getEmail() != null){
-                user.get().setUserName(request.getEmail());
-                user.get().setEmail(request.getEmail());
-            }
-            if(request.getFullName() != null){
-                user.get().setFullName(request.getFullName());
+            if(request != null){
+                user.get().setFullName(request);
             }
 
             userRepository.save(user.get());
+        }
+
+    }
+
+    public void changePassword(String email, ChangePasswordRequest changePasswordRequest) {
+        Optional<User> user = userRepository.findByUserName(email);
+        if(user.isPresent()){
+            if(Objects.equals(changePasswordRequest.getConfirmPassword(), changePasswordRequest.getPassword()) && Objects.equals(user.get().getUsername(), changePasswordRequest.getEmail())){
+                user.get().setPassword(changePasswordRequest.getPassword());
+                userRepository.save(user.get());
+            }
         }
 
     }

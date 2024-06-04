@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import '../../src/App.css';
 
 const HeroSection = () => {
 
@@ -96,12 +97,12 @@ const HeroSection = () => {
     }
 
     return (
-        <>
-        <cenetr><div className='container my-4'><Nav/></div></cenetr>       
+        <div className="background">
+        <cenetr><div className='container'><Nav/></div></cenetr>       
             <div className='m-4 m-md-4'>
                 <form className="d-flex mx-auto mx-2" role="search" onSubmit={(e) => e.preventDefault}>
                     <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={searchQuery} onChange={handleSearchChange}/>
-                    <button className="btn btn-outline-success" type="submit">Search</button>
+                    <button className="btn btn-success" type="submit">Search</button>
                 </form>
             </div>
             <div>
@@ -118,7 +119,7 @@ const HeroSection = () => {
                     
                 ) : (
                     items === 0?(<div>Songs were not found</div>): (
-                    <div className='row'>
+                    <div className='row data-aos="fade-down"'>
                         {filteredItems.map(item => (
                             <div key={item.id} className=' col border m-4 shadow-lg p-3 mb-5 bg-body rounded'>
                                 <div>  
@@ -185,7 +186,7 @@ const HeroSection = () => {
             )}
 
 
-        </>
+        </div>
     );
 };
 
