@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:music_app/SongPage.dart';
+import 'package:music_app/models/About.dart';
 import 'package:music_app/models/Song.dart';
 import 'package:music_app/models/song_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,10 +25,60 @@ class HeroSection extends StatelessWidget {
           ),
           backgroundColor: const Color.fromARGB(255, 7, 6, 6),
           elevation: 50.0,
-          leading: const Icon(
-            Icons.list_sharp,
-            color: Colors.white,
-            size: 35,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(
+                Icons.list_sharp,
+                color: Colors.white,
+                size: 35,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.info),
+                title: const Text('About'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => About()));
+                  // Navigate to About page
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.card_giftcard),
+                title: const Text('Donate'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigate to Donate page
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.privacy_tip_rounded),
+                title: const Text('Privacy & Policies'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Navigate to Donate page
+                },
+              ),
+            ],
           ),
         ),
         body: Column(
@@ -58,7 +109,6 @@ class HeroSection extends StatelessWidget {
                           RotateAnimatedText('Tone Book'),
                         ],
                         totalRepeatCount: 1000,
-                        
                       ),
                     ),
                   ],
