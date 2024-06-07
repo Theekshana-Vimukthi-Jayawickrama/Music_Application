@@ -43,6 +43,7 @@ public class OTPController {
     @PostMapping("/verifyOTP")
     public ResponseEntity<String> verifyOTP(
             @RequestBody OtpDTO otpDTO
+
     ) {
         try {
             String status = service.verifyOTP(otpDTO.getEmail().trim().toLowerCase(), otpDTO.getOtp());
